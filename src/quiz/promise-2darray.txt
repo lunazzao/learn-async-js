@@ -1,1 +1,21 @@
 Explain the code execution based on the order of the messages logged in src/quiz/promise-2darray.txt.
+
+1. "Sum called ...": This is printed immediately when sum2DArray(array2D) is called. The function logs this message before checking if the input is an array.
+
+2. "returning from sum": After initiating the conditional logic and regardless of the path taken (resolve or reject), this message is logged because the Promise constructor code runs synchronously, up to the point of calling setTimeout or reject.
+
+3. "Promise { <pending> }": This logs the state of sumPromise1 right after its creation. The promise is still pending because the setTimeout callback has not yet executed.
+
+4. "Sum called ...": Similar to the first step, this is printed immediately when sum2DArray('array2D') is called for the second promise.
+
+5. "rejecting ...": Because the input 'array2D' is a string and not an array, the function immediately goes to the else block and logs this message before rejecting the promise.
+
+6. "returning from sum": As before, this is logged after the rejection logic, indicating the end of the synchronous part of the sum2DArray function for the second call.
+
+7. "Promise { <rejected> 'BAD INPUT: Expected array as input' }": This logs the state of sumPromise2 immediately after its creation, showing that it has been rejected with the specified error message.
+
+8. "BAD INPUT: Expected array as input": This is the error message logged by the .catch method attached to sumPromise2, which is executed as soon as the promise is rejected.
+
+9. "resolving ...": This is logged after the setTimeout callback is executed for the first promise. The event loop checks the callback queue and finds this setTimeout callback waiting to be executed since it was deferred with a delay of 0 milliseconds. Although the delay is 0, the callback must wait until the call stack is clear and the event loop can pick it up.
+
+10. 45: This is the result of summing up the elements of the 2D array, logged by the .then method attached to sumPromise1, which is executed after the promise is resolved with the sum of the array's elements.
